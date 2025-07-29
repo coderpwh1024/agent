@@ -6,11 +6,20 @@ import asyncio
 from openai import AsyncOpenAI
 
 from dotenv import load_dotenv
+from posthog.ai.openai import AsyncAzureOpenAI
 
 from semantic_kernel.agents import ChatCompletionAgent, ChatHistoryAgentThread
 from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
 from semantic_kernel.functions import kernel_function
 from sqlalchemy.sql.functions import random
+
+
+
+apiKey = ""
+endpoint = ""
+open_ai_version = "2024-08-01-preview"
+azure_deployment = ""
+
 
 
 class DestinationsPlugin:
@@ -45,14 +54,17 @@ class DestinationsPlugin:
 
 
 load_dotenv()
-client = AsyncOpenAI(
-    api_key=os.environ.get("GITHUB_TOKEN"),
-    base_url="https://models.inference.ai.azure.com/",
+
+client = AsyncAzureOpenAI(
+    api_key=apiKey,
+    azure_endpoint=endpoint,
+    api_version=open_ai_version,
 )
+
 
 # Create an AI Service that will be used by the `ChatCompletionAgent`
 chat_completion_service = OpenAIChatCompletion(
-    ai_model_id="gpt-4o-mini",
+    ai_model_id=azure_deployment,
     async_client=client,
 )
 

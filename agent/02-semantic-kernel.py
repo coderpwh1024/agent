@@ -13,7 +13,7 @@ from semantic_kernel.contents import FunctionCallContent, FunctionResultContent,
 from semantic_kernel.functions import kernel_function
 from torchgen.api.native import arguments
 
-apiKey = " "
+apiKey = ""
 endpoint = ""
 open_ai_version = "2024-08-01-preview"
 azure_deployment = ""
@@ -61,6 +61,8 @@ chat_completion_service = OpenAIChatCompletion(
     ai_model_id=azure_deployment,
     async_client=client,
 )
+
+
 
 agent = ChatCompletionAgent(
     service=chat_completion_service,

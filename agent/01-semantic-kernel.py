@@ -3,19 +3,17 @@ from typing import Annotated
 import os
 from typing import Annotated
 import asyncio
-from openai import AsyncOpenAI
-
+from openai import AsyncOpenAI, AsyncAzureOpenAI
+import random
 from dotenv import load_dotenv
-from posthog.ai.openai import AsyncAzureOpenAI
 
 from semantic_kernel.agents import ChatCompletionAgent, ChatHistoryAgentThread
 from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
 from semantic_kernel.functions import kernel_function
-from sqlalchemy.sql.functions import random
 
 
 
-apiKey = ""
+apiKey = " "
 endpoint = ""
 open_ai_version = "2024-08-01-preview"
 azure_deployment = ""
@@ -27,29 +25,31 @@ class DestinationsPlugin:
 
     def __init__(self):
         self.destinations = [
-            "Barcelona, Spain",
-            "Paris, France",
-            "Berlin, Germany",
-            "Tokyo, Japan",
-            "Sydney, Australia",
-            "New York, USA",
-            "Cairo, Egypt",
-            "Cape Town, South Africa",
-            "Rio de Janeiro, Brazil",
-            "Bali, Indonesia"
+            "巴塞罗那, 西班牙",
+            "巴黎, 法国",
+            "柏林, 德国",
+            "东京, 日本",
+            "悉尼, 澳大利亚",
+            "纽约, 美国",
+            "开罗, 埃及",
+            "开普敦, 南非",
+            "里约热内卢, 巴西",
+            "巴厘岛, 印度尼西亚"
         ]
 
         self.last_destination = None
 
     @kernel_function(description="提供一个随机的度假目的地")
     def get_random_destination(self) -> Annotated[str, "返回一个随机的度假目的地"]:
+        # Get available destinations (excluding last one if possible)
         available_destinations = self.destinations.copy()
-        if self.last_destination in available_destinations:
+        if self.last_destination and len(available_destinations) > 1:
             available_destinations.remove(self.last_destination)
 
         destination = random.choice(available_destinations)
 
         self.last_destination = destination
+
         return destination
 
 

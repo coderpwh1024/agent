@@ -15,7 +15,7 @@ from semantic_kernel.functions import kernel_function
 import random
 
 
-apiKey = " "
+apiKey = ""
 endpoint = ""
 open_ai_version = "2024-08-01-preview"
 azure_deployment = ""
@@ -109,7 +109,7 @@ async  def main():
       current_function_name = None
       argument_buffer = ""
 
-      async  for response in agent.invoke.stream(
+      async  for response in agent.invoke_stream(
           messages=user_input,
           thread=thread,
       ):
@@ -137,6 +137,7 @@ async  def main():
                      function_calls.append(f"Calling function: {current_function_name}({formatted_args})")
                      current_function_name=None
                      argument_buffer=""
+
                  function_calls.append(f"\n Function Result:\n\n{item.result}")
              elif isinstance(item,StreamingTextContent) and item.text:
                  full_response.append(item.text)

@@ -2,8 +2,9 @@ import json
 import os
 from typing import Annotated
 from dotenv import load_dotenv
-
+import asyncio
 from IPython.display import display, HTML
+from lazy_object_proxy.utils import await_
 from openai import AsyncOpenAI, AsyncAzureOpenAI
 
 from semantic_kernel.agents import ChatCompletionAgent, ChatHistoryAgentThread
@@ -13,7 +14,6 @@ from semantic_kernel.functions import kernel_function
 
 import random
 
-from torch.ao.nn.quantized.functional import threshold
 
 apiKey = " "
 endpoint = ""
@@ -140,6 +140,29 @@ async  def main():
                  function_calls.append(f"\n Function Result:\n\n{item.result}")
              elif isinstance(item,StreamingTextContent) and item.text:
                  full_response.append(item.text)
+
+          if function_calls:
+              html_output+=(
+                  "<div style='margin-bottom:10px'>"
+                  "<details>"
+                  "<summary style='cursor:pointer; font-weight:bold; color:#0066cc;'>Function Calls (click to expand)</summary>"
+                  "<div style='margin:10px; padding:10px; background-color:#f8f8f8; "
+                  "border:1px solid #ddd; border-radius:4px; white-space:pre-wrap; font-size:14px; color:#333;'>"
+                  f"{chr(10).join(function_calls)}"
+                  "</div></details></div>"
+              )
+
+          html_output+=(
+              "<div style='margin-bottom:20px'>"
+              f"<div style='font-weight:bold'>{agent_name or 'Assistant'}:</div>"
+              f"<div style='margin-left:20px; white-space:pre-wrap'>{''.join(full_response)}</div></div><hr>"
+          )
+
+          display(HTML(html_output))
+
+if __name__ == "__main__":
+    asyncio.run(main())
+
 
 
 

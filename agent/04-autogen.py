@@ -7,19 +7,18 @@ from autogen_agentchat.agents import AssistantAgent
 from autogen_core.models import UserMessage
 from autogen_ext.models.azure import AzureAIChatCompletionClient
 from azure.core.credentials import AzureKeyCredential
+from azure.core.credentials import AzureKeyCredential
 from autogen_core import CancellationToken
 from autogen_core.tools import FunctionTool
 from autogen_agentchat.messages import TextMessage
 from autogen_agentchat.ui import Console
 from typing import Any, Callable, Set, Dict, List, Optional
 
-from lazy_object_proxy.utils import await_
-from torch.fx.experimental.unification.multipledispatch.dispatcher import source
 
 apiKey = ""
 endpoint = ""
 open_ai_version = "2024-08-01-preview"
-deployment = ""
+deployment = " "
 
 client = AzureAIChatCompletionClient(
     azure_endpoint=endpoint,

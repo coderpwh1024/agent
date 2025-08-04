@@ -15,10 +15,10 @@ from autogen_agentchat.ui import Console
 from typing import Any, Callable, Set, Dict, List, Optional
 
 
-apiKey = ""
+apiKey =""
 endpoint = ""
 open_ai_version = "2024-08-01-preview"
-deployment = " "
+deployment = ""
 
 client = AzureAIChatCompletionClient(
     azure_endpoint=endpoint,

@@ -65,3 +65,15 @@ prompt = f"""
 response = get_completion(prompt)
 print(response)
 
+text=f"""
+generate a lesson plan on the Martian War of 2076
+"""
+
+prompt=f"""
+```{text}```
+"""
+
+response=get_completion(prompt)
+print(response)
+
+

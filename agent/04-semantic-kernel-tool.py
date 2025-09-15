@@ -12,9 +12,9 @@ from semantic_kernel.contents import FunctionCallContent, FunctionResultContent,
 from semantic_kernel.functions import kernel_function
 
 apiKey = ""
-endpoint = ""
+endpoint = " "
 open_ai_version = "2024-08-01-preview"
-azure_deployment = ""
+azure_deployment = " "
 
 
 # 插件定义

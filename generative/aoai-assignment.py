@@ -1,25 +1,24 @@
 import os
-from http.client import responses
-from importlib import import_module
-
-from langchain.chat_loaders.facebook_messenger import import_lookup
-from lib2to3.btm_utils import tokens
 
 import tiktoken
-from prompt_toolkit import prompt
 
-text = f"""
-Jupiter is the fifth planet from the Sun and the \
-largest in the Solar System. It is a gas giant with \
-a mass one-thousandth that of the Sun, but two-and-a-half \
-times that of all the other planets in the Solar System combined. \
-Jupiter is one of the brightest objects visible to the naked eye \
-in the night sky, and has been known to ancient civilizations since \
-before recorded history. It is named after the Roman god Jupiter.[19] \
-When viewed from Earth, Jupiter can be bright enough for its reflected \
-light to cast visible shadows,[20] and is on average the third-brightest \
-natural object in the night sky after the Moon and Venus.
+# text = f"""
+# Jupiter is the fifth planet from the Sun and the \
+# largest in the Solar System. It is a gas giant with \
+# a mass one-thousandth that of the Sun, but two-and-a-half \
+# times that of all the other planets in the Solar System combined. \
+# Jupiter is one of the brightest objects visible to the naked eye \
+# in the night sky, and has been known to ancient civilizations since \
+# before recorded history. It is named after the Roman god Jupiter.[19] \
+# When viewed from Earth, Jupiter can be bright enough for its reflected \
+# light to cast visible shadows,[20] and is on average the third-brightest \
+# natural object in the night sky after the Moon and Venus.
+# """
+
+text=f"""
+木星是太阳系中距离太阳第五近的行星，也是太阳系中体积最大的行星。作为一颗气态巨行星，木星的质量仅为太阳的千分之一，但却是太阳系中所有其他行星质量总和的两倍半。木星是夜空中肉眼可见的最明亮天体之一，在有历史记载之前就已被古代文明所知晓。其名称源于罗马神话中的朱庇特[19]。从地球观测时，木星的亮度足以让其反射的光投射出可见的阴影[20]，是继月球和金星之后，夜空中平均亮度第三的自然天体。
 """
+
 
 encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
 
@@ -31,31 +30,33 @@ print(tokens)
 from openai import AzureOpenAI
 from dotenv import load_dotenv
 
+
+
 load_dotenv()
 
 client = AzureOpenAI(
-    api_key="",
-    api_version="",
+    api_key='', # this is also the default, it can be omitted
+    api_version='',
+    azure_endpoint=''
 )
 
-deployment = "";
 
 
 #    大模型请求函数
 def get_completion(prompt):
-    messages = [{"role": "user", "content": prompt}],
+    messages = [{"role": "user", "content": prompt}]
     response = client.chat.completions.create(
-        model=deployment,
+        #  TODO
+        model='',
         messages=messages,
-        temperature=0,
+        temperature=0, # this is the degree of randomness of the model's output
         max_tokens=1024
     )
-
     return response.choices[0].message.content
 
 
 text = f"""
-oh say can you see 
+额, 你可看见吗
 """
 
 prompt = f"""
@@ -66,7 +67,7 @@ response = get_completion(prompt)
 print(response)
 
 text = f"""
-generate a lesson plan on the Martian War of 2076
+生成一份关于2076年火星战争的教案
 """
 
 prompt = f"""
@@ -76,21 +77,24 @@ prompt = f"""
 response = get_completion(prompt)
 print(response)
 
-text = f"""
-Jupiter is the fifth planet from the Sun and the \
-largest in the Solar System. It is a gas giant with \
-a mass one-thousandth that of the Sun, but two-and-a-half \
-times that of all the other planets in the Solar System combined. \
-Jupiter is one of the brightest objects visible to the naked eye \
-in the night sky, and has been known to ancient civilizations since \
-before recorded history. It is named after the Roman god Jupiter.[19] \
-When viewed from Earth, Jupiter can be bright enough for its reflected \
-light to cast visible shadows,[20] and is on average the third-brightest \
-natural object in the night sky after the Moon and Venus.
+# text = f"""
+# Jupiter is the fifth planet from the Sun and the \
+# largest in the Solar System. It is a gas giant with \
+# a mass one-thousandth that of the Sun, but two-and-a-half \
+# times that of all the other planets in the Solar System combined. \
+# Jupiter is one of the brightest objects visible to the naked eye \
+# in the night sky, and has been known to ancient civilizations since \
+# before recorded history. It is named after the Roman god Jupiter.[19] \
+# When viewed from Earth, Jupiter can be bright enough for its reflected \
+# light to cast visible shadows,[20] and is on average the third-brightest \
+# natural object in the night sky after the Moon and Venus.
+# """
+text=f"""
+木星是太阳系中距离太阳第五近的行星，也是太阳系中最大的行星。它是一颗气态巨行星，质量仅为太阳的千分之一，但却是太阳系中所有其他行星总质量的两倍半。木星是夜空中肉眼可见的最明亮天体之一，在有历史记载之前就已被古代文明所知。它的名字来源于罗马神话中的朱庇特神[19]。从地球观测时，木星的亮度足以让其反射的光投射出可见的阴影[20]，是继月球和金星之后，夜空中平均亮度第三的自然天体。
 """
 
 prompt = f"""
-Summarize content you are provided with for a second-grade student.
+将提供给你的内容总结成适合二年级小朋友理解的版本。
 ```{text}```
 """
 
@@ -99,7 +103,8 @@ print(response)
 
 
 response = client.chat.completions.create(
-    model=deployment,
+    #  TODO
+    model='',
     messages=[
         {"role":"system","content":"You are a sarcastic assistant."},
         {"role":"user","content":"Who won the world series in 2020?"},

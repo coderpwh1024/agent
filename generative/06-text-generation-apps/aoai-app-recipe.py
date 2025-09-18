@@ -2,15 +2,18 @@ from openai import AzureOpenAI
 import os
 from dotenv import load_dotenv
 
+endpoint=""
+deployment=" "
+apiKey=" "
+
 client = AzureOpenAI(
 
-    azure_endpoint="",
-    azure_deployment="",
-    api_key="",
+    azure_endpoint=endpoint,
+    azure_deployment=deployment,
+    api_key=apiKey,
     api_version="2024-08-01-preview",
 )
 
-deployment = ""
 
 no_recipes = input("No of recipes (for example ,5:")
 

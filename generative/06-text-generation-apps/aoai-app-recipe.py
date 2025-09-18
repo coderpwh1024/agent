@@ -2,9 +2,12 @@ from openai import AzureOpenAI
 import os
 from dotenv import load_dotenv
 
+
+
 endpoint=""
 deployment=" "
 apiKey=" "
+
 
 
 client = AzureOpenAI(

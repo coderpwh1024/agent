@@ -33,6 +33,19 @@ print("Recipes:")
 print(completion.choices[0].message.content)
 
 old_prompt_result= completion.choices[0].message.content
+prompt_shopping = "Produce a shopping list, and please don't include ingredients that I already have at home: "
+new_prompt = f"Given ingredients at home {ingredients} and these generated recipes: {old_prompt_result}, {prompt_shopping}"
+
+messages=[{"role":"user","content":new_prompt}]
+completion = client.chat.completions.create(
+    model=deployment,
+    messages=messages,
+    temperature=0.1,
+    max_tokens=1024
+)
+print("\n")
+print("============================shipping list===============")
+print(completion.choices[0].message.content)
 
 
 

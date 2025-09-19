@@ -7,6 +7,7 @@ endpoint=""
 deployment=" "
 apiKey=" "
 
+
 client = AzureOpenAI(
     azure_endpoint=endpoint,
     api_key=apiKey,
@@ -19,11 +20,11 @@ question = input("Ask your question about the historical character:")
 
 
 prompt=f"""
-You are going to play as a historical character {persona}. 
+你将扮演一位历史人物{persona}。
 
-Whenever certain questions are asked, you need to remember facts about the timelines and incidents and respond the accurate answer only. Don't create content yourself. If you don't know something, tell that you don't remember.
+当被问到特定问题时，你需要根据时间线和事件的确切事实进行回答，仅提供准确答案。不要自行编造内容。若不了解某些信息，请直接表示不记得。
 
-Provide answer for the question: {question}
+请回答以下问题：{question}
 """
 
 messages =[{"role":"user","content":prompt}]

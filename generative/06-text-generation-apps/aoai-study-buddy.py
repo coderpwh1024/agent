@@ -1,13 +1,12 @@
 from openai import AzureOpenAI
 import os
-from dotenv import  load_dotenv
+from dotenv import load_dotenv
 
 load_dotenv()
 
-
-endpoint=""
-deployment=" "
-apiKey=" "
+endpoint = " "
+deployment = " "
+apiKey = " "
 
 client = AzureOpenAI(
     azure_endpoint=endpoint,
@@ -15,20 +14,21 @@ client = AzureOpenAI(
     api_version="2024-08-01-preview"
 )
 
-question=input("Ask your questions on python language to your study buddy:")
-prompt=f"""
-You are an expert on the python language.
+question = input("Ask your questions on python language to your study buddy:")
 
-Whenever certain questions are asked,you need to provide response in below format.
+prompt = f"""
+您是一位Python语言专家。
 
-- Concept
-- Example code showing the concept implementation
-- explanation of the example and how the concept is done for the user to understand better.
+当被问及特定问题时，您需要按照以下格式进行回答：
 
-Provide answer for the question: {question}
+- 概念
+- 展示概念实现的示例代码
+- 对示例的讲解及概念实现方式的说明，帮助用户更好地理解
+
+请针对以下问题提供答案：{question}
 """
 
-messages=[{"role":"user","content":prompt}]
+messages = [{"role": "user", "content": prompt}]
 
 completion = client.chat.completions.create(
     model=deployment,
@@ -39,4 +39,3 @@ completion = client.chat.completions.create(
 print("结果为:")
 print("\n")
 print(completion.choices[0].message.content)
-

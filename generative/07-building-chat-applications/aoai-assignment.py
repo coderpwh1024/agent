@@ -71,3 +71,5 @@ stick_embedding       = client.embeddings.create(input='stick', model=model).dat
 print(cosine_similarity(automobile_embedding, vehicle_embedding))
 print(cosine_similarity(automobile_embedding, dinosaur_embedding))
 print(cosine_similarity(automobile_embedding, stick_embedding))
+print("\n")
+print("===============================embedding======================================")

@@ -43,3 +43,31 @@ end = times()
 print("大模型处理时间: %.2f 秒" % (end[0] - begin[0]))
 print("大模型返回结果为:\n")
 print(response.choices[0].message.content)
+
+print("---------------------------------------------------------------------------------------")
+
+
+
+# 余弦相似度
+def cosine_similarity(a, b):
+    a = np.array(a)
+    b = np.array(b)
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+
+text = "the quick brown for jumped over the lazy dog"
+model = "text-embedding-3-large"
+
+emb = client.embeddings.create(input='[text]', model=model).data[0].embedding
+print( emb)
+print("---------------------------------------------------------------------------------------")
+
+# compare several words
+automobile_embedding  = client.embeddings.create(input='automobile', model=model).data[0].embedding
+vehicle_embedding     = client.embeddings.create(input='vehicle', model=model).data[0].embedding
+dinosaur_embedding    = client.embeddings.create(input='dinosaur', model=model).data[0].embedding
+stick_embedding       = client.embeddings.create(input='stick', model=model).data[0].embedding
+
+print(cosine_similarity(automobile_embedding, vehicle_embedding))
+print(cosine_similarity(automobile_embedding, dinosaur_embedding))
+print(cosine_similarity(automobile_embedding, stick_embedding))

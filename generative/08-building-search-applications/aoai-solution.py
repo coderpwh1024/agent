@@ -7,9 +7,10 @@ from qdrant_client.http import model
 
 load_dotenv()
 
-endpoint = " "
-deployment = " "
-apiKey = " "
+
+endpoint=""
+deployment=" "
+apiKey=" "
 
 client = AzureOpenAI(
     azure_endpoint=endpoint,
@@ -20,7 +21,7 @@ client = AzureOpenAI(
 # embedding 模型
 model = 'text-embedding-3-large'
 SIMILARITIES_RESULTS_THRESHOLD = 0.75
-DATASET_NAME = "../embedding_index_3m.json"
+DATASET_NAME = "embedding_index_3m.json"
 
 
 # 加载JSON 数据

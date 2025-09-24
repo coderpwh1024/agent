@@ -7,6 +7,7 @@ import  json
 
 dotenv.load_dotenv()
 
+# gpt-40 暂时不支持图片生成等
 
 endpoint=" "
 deployment=" "

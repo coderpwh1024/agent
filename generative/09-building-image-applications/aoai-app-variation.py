@@ -8,9 +8,10 @@ import json
 
 dotenv.load_dotenv()
 
-endpoint = " "
-deployment = " "
-apiKey = " "
+endpoint=""
+# deployment="Server"
+deployment=" "
+apiKey=" "
 
 client = AzureOpenAI(
     azure_endpoint=endpoint,
@@ -28,7 +29,7 @@ image = Image.open(image_path)
 image.show()
 
 try:
-    print("LOG creating variation")
+    print("开始生成图片")
     result = client.images.create_variation(
         image=open(image_path, "rb"),
         n=1,
@@ -41,7 +42,7 @@ try:
 
     image_url = response['data'][0]['url']
 
-    print("LOG downloading image")
+    print("下载图片中")
     generated_image = requests.get(image_url).content
     with open(image_path, 'wb') as image_file:
         image_file.write(generated_image)
@@ -50,4 +51,4 @@ try:
         image.show()
 
 finally:
-    print("completed!")
+    print("完成!")

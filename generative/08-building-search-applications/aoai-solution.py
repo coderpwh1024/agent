@@ -23,17 +23,35 @@ SIMILARITIES_RESULTS_THRESHOLD = 0.75
 DATASET_NAME = "../embedding_index_3m.json"
 
 
-
 # 加载JSON 数据
-def load_dataset(source:str)->pd.core.frame.DataFrame:
+def load_dataset(source: str) -> pd.core.frame.DataFrame:
     pd_vectors = pd.read_json(source)
-    return  pd_vectors.drop(columns=["text"],errors="ignore").fillna("")
+    return pd_vectors.drop(columns=["text"], errors="ignore").fillna("")
 
 
 # 余弦相似度
-def cosine_similarity(a,b):
-    if len(a)>len(b):
-        b=np.pad(b,(0,len(a)-len(b)),'constant')
-    elif len(b)>len(a):
-        a=np.pad(a,(0,len(b)-len(a)),'constant')
-    return np.dot(a,b)/(np.linalg.norm(a)*np.linalg.norm(b))
+def cosine_similarity(a, b):
+    if len(a) > len(b):
+        b = np.pad(b, (0, len(a) - len(b)), 'constant')
+    elif len(b) > len(a):
+        a = np.pad(a, (0, len(b) - len(a)), 'constant')
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+
+# 获取视频
+def get_videos(
+        query: str, dataset: pd.core.frame.DataFrame, rows: int
+) -> pd.core.frame.DataFrame:
+    video_vectors = dataset.copy()
+    query_embeddings = client.embeddings.create(input=query, model=model).data[0].embedding
+
+    video_vectors["similarity"] = video_vectors["ada_v2"].apply(
+        lambda x: cosine_similarity(np.array(query_embeddings), np.array(x))
+    )
+
+    mask = video_vectors["similarity"] >= SIMILARITIES_RESULTS_THRESHOLD
+    video_vectors = video_vectors[mask].copy()
+
+    video_vectors = video_vectors.sort_values(by="similarity", ascending=False).head(rows)
+
+    return video_vectors.head(rows)

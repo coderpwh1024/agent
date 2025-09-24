@@ -7,7 +7,8 @@ import  json
 
 dotenv.load_dotenv()
 
-endpoint=""
+
+endpoint=" "
 deployment=" "
 apiKey=" "
 

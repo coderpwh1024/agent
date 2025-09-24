@@ -55,3 +55,30 @@ def get_videos(
     video_vectors = video_vectors.sort_values(by="similarity", ascending=False).head(rows)
 
     return video_vectors.head(rows)
+
+
+def display_results(videos: pd.core.frame.DataFrame, query: str):
+    def _gen_yt_url(video_id: str, seconds: int) -> str:
+        """convert time in format 00:00:00 to seconds"""
+        return f"https://youtu.be/{video_id}?t={seconds}"
+
+    print(f"\nVideos similar to '{query}':")
+    for _, row in videos.iterrows():
+        youtube_url = _gen_yt_url(row["videoId"], row["seconds"])
+        print(f" - {row['title']}")
+        print(f"   Summary: {' '.join(row['summary'].split()[:15])}...")
+        print(f"   YouTube: {youtube_url}")
+        print(f"   Similarity: {row['similarity']}")
+        print(f"   Speakers: {row['speaker']}")
+
+
+pd_vestors=load_dataset(DATASET_NAME)
+
+while True:
+    query=input("Enter a query:")
+    if query =="exit":
+        break
+    videos = get_videos(query, pd_vestors, 5)
+    display_results(videos,query)
+
+

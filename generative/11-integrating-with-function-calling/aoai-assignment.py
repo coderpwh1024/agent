@@ -1,4 +1,5 @@
 from IPython.core.debugger import prompt
+from matplotlib.style.core import available
 
 student_1_description = "Emily Johnson is a sophomore majoring in computer science at Duke University. She has a 3.7 GPA. Emily is an active member of the university's Chess Club and Debate Team. She hopes to pursue a career in software engineering after graduating."
 
@@ -38,12 +39,9 @@ import os
 import json
 from openai import AzureOpenAI
 
-endpoint=" "
-deployment=" "
-apiKey=" "
-
-
-
+endpoint = " "
+deployment = " "
+apiKey = " "
 
 client = AzureOpenAI(
     azure_endpoint=endpoint,
@@ -79,65 +77,115 @@ print("=========================================================================
 
 messages = [{"role": "user", "content": "Find me a good course for a beginner student to learn Azure ."}]
 
-
-
 functions = [
-   {
-      "name":"search_courses",
-      "description":"Retrieves courses from the search index based on the parameters provided",
-      "parameters":{
-         "type":"object",
-         "properties":{
-            "role":{
-               "type":"string",
-               "description":"The role of the learner (i.e. developer, data scientist, student, etc.)"
+    {
+        "name": "search_courses",
+        "description": "Retrieves courses from the search index based on the parameters provided",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "role": {
+                    "type": "string",
+                    "description": "The role of the learner (i.e. developer, data scientist, student, etc.)"
+                },
+                "product": {
+                    "type": "string",
+                    "description": "The product that the lesson is covering (i.e. Azure, Power BI, etc.)"
+                },
+                "level": {
+                    "type": "string",
+                    "description": "The level of experience the learner has prior to taking the course (i.e. beginner, intermediate, advanced)"
+                }
             },
-            "product":{
-               "type":"string",
-               "description":"The product that the lesson is covering (i.e. Azure, Power BI, etc.)"
-            },
-            "level":{
-               "type":"string",
-               "description":"The level of experience the learner has prior to taking the course (i.e. beginner, intermediate, advanced)"
-            }
-         },
-         "required":[
-            "role"
-         ]
-      }
-   }
+            "required": [
+                "role"
+            ]
+        }
+    }
 ]
 
 response = client.chat.completions.create(model=deployment,
-                                        messages=messages,
-                                        functions=functions,
-                                        function_call="auto")
+                                          messages=messages,
+                                          functions=functions,
+                                          function_call="auto")
 
+# 打印请求函数的结果
 print(response.choices[0].message)
+response_message = response.choices[0].message
+
+import requests
 
 
-
-import  requests
-
-def search_curses(role,product,level):
-    url="",
-    params={
-        "role":role,
-        "product":product,
-        "level":level
+# 搜索课程 函数
+def search_curses(role, product, level):
+    url = "",
+    params = {
+        "role": role,
+        "product": product,
+        "level": level
     }
-    response = requests.get(url,params=params)
-    modules=requests.json()["modules"]
-    results=[]
+    response = requests.get(url, params=params)
+    modules = requests.json()["modules"]
+    results = []
     for module in modules[:5]:
         title = module["title"]
-        url=module["url"]
-        results.append({"title":title,"url":url})
-    return  str(results)
+        url = module["url"]
+        results.append({"title": title, "url": url})
+    return str(results)
 
 
+# 解析函数
 
+if response_message.function_call.name:
+    print("Function call 函数为:")
+    print(response_message.function_call.name)
+    print("\n")
 
+    function_name = response_message.function_call.name
 
+    available_functions = {
+        "search_courses": search_curses,
+    }
 
+    function_to_call = available_functions[function_name]
+    function_args = json.loads(response_message.function_call.arguments)
+    function_response = function_to_call(**function_args)
 
+    print("函数输出部分为:")
+    print("\n")
+    print(function_response)
+    print("\n")
+    print(type(function_response))
+
+    messages.append(
+        {
+            "role": response_message.role,
+            "content": None,
+            "function_call": {
+                "name": function_name,
+                "arguments": response_message.function_call.arguments
+            }
+        }
+    )
+    messages.append(
+        {
+            "role": "function",
+            "name": function_name,
+            "content": function_response
+        }
+    )
+
+print("Messages in next request:")
+print(messages)
+print()
+
+# 第二次请求=
+second_response = client.chat.completions.create(
+    messages=messages,
+    model=deployment,
+    function_call="auto",
+    functions=functions,
+    temperature=0
+)
+
+print(second_response.choices[0].message)

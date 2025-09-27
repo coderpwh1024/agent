@@ -117,6 +117,26 @@ print(response.choices[0].message)
 
 
 
+import  requests
+
+def search_curses(role,product,level):
+    url="",
+    params={
+        "role":role,
+        "product":product,
+        "level":level
+    }
+    response = requests.get(url,params=params)
+    modules=requests.json()["modules"]
+    results=[]
+    for module in modules[:5]:
+        title = module["title"]
+        url=module["url"]
+        results.append({"title":title,"url":url})
+    return  str(results)
+
+
+
 
 
 

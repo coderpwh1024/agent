@@ -37,11 +37,13 @@ This is the body of text to extract the information from:
 import os
 import json
 from openai import AzureOpenAI
-from dotenv import load_dotenv
 
-endpoint = " "
-deployment = " "
-apiKey = " "
+endpoint=" "
+deployment=" "
+apiKey=" "
+
+
+
 
 client = AzureOpenAI(
     azure_endpoint=endpoint,
@@ -64,7 +66,7 @@ openai_response2 = client.chat.completions.create(
 print(openai_response2.choices[0].message.content)
 print("\n")
 
-print("======================================================")
+print("===============================================================================================================")
 
 # 带有markdown语法的json解析异常
 
@@ -77,36 +79,41 @@ print("======================================================")
 
 messages = [{"role": "user", "content": "Find me a good course for a beginner student to learn Azure ."}]
 
-functions=[
-    {
-        "name":"search_courses",
-        "description":"Retrieves course from the search index based on the parameters provided",
-        "parameters":{
+
+
+functions = [
+   {
+      "name":"search_courses",
+      "description":"Retrieves courses from the search index based on the parameters provided",
+      "parameters":{
+         "type":"object",
+         "properties":{
             "role":{
-                "type":"string",
-                "description":"The role of the learner (i.e. developer, data scientist, student, etc.)"
+               "type":"string",
+               "description":"The role of the learner (i.e. developer, data scientist, student, etc.)"
             },
             "product":{
-                "type":"string",
-                "description":"The product that the lesson is covering (i.e. Azure, Power BI, etc.)"
+               "type":"string",
+               "description":"The product that the lesson is covering (i.e. Azure, Power BI, etc.)"
             },
             "level":{
-                "type":"string",
-                "description":"The level of experience the learner has prior to taking the course (i.e. beginner, intermediate, advanced)"
-
+               "type":"string",
+               "description":"The level of experience the learner has prior to taking the course (i.e. beginner, intermediate, advanced)"
             }
-        },
-        "required":["role"]
-    }
+         },
+         "required":[
+            "role"
+         ]
+      }
+   }
 ]
 
-reponse = client.chat.completions.create(
-    model=deployment,
-    messages=messages,
-    functions=functions,
-    function_call="auto"
-)
-print(reponse.choices[0].message)
+response = client.chat.completions.create(model=deployment,
+                                        messages=messages,
+                                        functions=functions,
+                                        function_call="auto")
+
+print(response.choices[0].message)
 
 
 

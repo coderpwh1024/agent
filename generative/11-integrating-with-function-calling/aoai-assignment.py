@@ -39,9 +39,9 @@ import os
 import json
 from openai import AzureOpenAI
 
-endpoint = " "
-deployment = " "
-apiKey = " "
+endpoint=" "
+deployment=" "
+apiKey=" "
 
 client = AzureOpenAI(
     azure_endpoint=endpoint,
@@ -118,7 +118,7 @@ import requests
 
 # 搜索课程 函数
 def search_curses(role, product, level):
-    url = "",
+    url = "https://learn.microsoft.com/api/catalog/"
     params = {
         "role": role,
         "product": product,
@@ -146,9 +146,11 @@ if response_message.function_call.name:
     available_functions = {
         "search_courses": search_curses,
     }
-
     function_to_call = available_functions[function_name]
+
     function_args = json.loads(response_message.function_call.arguments)
+    print("函数参数部分为:")
+    print(function_args)
     function_response = function_to_call(**function_args)
 
     print("函数输出部分为:")

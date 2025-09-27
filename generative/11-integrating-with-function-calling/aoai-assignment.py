@@ -68,8 +68,10 @@ print("\n")
 
 print("======================================================")
 
-json_response1 = json.loads(openai_response1.choices[0].message.content)
-json_response2 = json.loads(openai_response2.choices[0].message.content)
+# 带有markdown语法的json解析异常
+
+# json_response1 = json.loads(openai_response1.choices[0].message.content)
+# json_response2 = json.loads(openai_response2.choices[0].message.content)
 # print(json_response1)
 # print("\n")
-print(json_response2)
+# print(json_response2)

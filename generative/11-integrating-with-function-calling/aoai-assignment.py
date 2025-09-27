@@ -181,7 +181,7 @@ print("Messages in next request:")
 print(messages)
 print()
 
-# 第二次请求=
+# 第二次请求大模型
 second_response = client.chat.completions.create(
     messages=messages,
     model=deployment,

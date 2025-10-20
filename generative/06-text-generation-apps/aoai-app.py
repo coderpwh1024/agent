@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-endpoint=""
+endpoint=" "
 deployment=" "
 apiKey=" "
 

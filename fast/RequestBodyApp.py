@@ -30,7 +30,19 @@ async def create_item2(item: Item):
     return item_dict
 
 
+# 带有路径的参数
+@app.put("/items/{item_id}")
+async def update_item(item_id: int, item: Item):
+    print("item_id:", item_id)
+    return {"item_id": item_id, **item.dict()}
 
+
+@app.put("/items2/{item_id}")
+async def update_item(item_id: int, item: Item, q: str | None = None):
+    result = {"item_id": item_id, **item.dict()}
+    if q:
+        result.update({"q": q})
+    return result
 
 
 if __name__ == "__main__":

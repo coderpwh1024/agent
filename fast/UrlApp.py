@@ -36,6 +36,16 @@ async  def get_model(model_name: ModelName):
 
     return {"model_name":model_name,"message":"Have some residuals"}
 
+# 上传文件路径
+@app.get("/files/{file_path:path}")
+async  def read_file(file_path:str):
+    print("file_path:",file_path)
+    return {"file_path":file_path}
+
+
+
+
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8001)

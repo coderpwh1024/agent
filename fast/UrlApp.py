@@ -3,7 +3,7 @@ from fastapi import  FastAPI
 
 app = FastAPI()
 
-# python 中关于url路径参数
+# python 中关于url路径
 @app.get("/items/{item_id}")
 async def read_item(item_id):
     print("item_id:",item_id)

@@ -1,7 +1,6 @@
 from typing import Union
 import uvicorn
 from fastapi import FastAPI
-
 app = FastAPI()
 
 

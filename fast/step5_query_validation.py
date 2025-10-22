@@ -90,6 +90,38 @@ async def read_item11(q: Union[str, None] = Query(default=None, title="Query str
     return results
 
 
+@app.get("/items12/")
+async def read_item12(q: Union[str, None] = Query(default=None, alias="item-query")):
+    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q})
+    return results
+
+
+@app.get("/items13/")
+async  def read_item13(q:Union[str,None]=Query(default=None,
+                                               alias="item-query",
+                                               title="Query string",
+                                               description="Query string for the items to search in the database that have a good match",
+                                               min_length=3,
+                                               max_length=50,
+                                               pattern="^fixedquery$",
+                                               deprecated=True,
+                                )):
+
+    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+
+    if q:
+        results.update({"q": q})
+    return  results
+
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":

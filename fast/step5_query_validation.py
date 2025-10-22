@@ -1,7 +1,7 @@
 from typing import Union
 
 import uvicorn
-from fastapi import FastAPI,Query
+from fastapi import FastAPI, Query
 
 app = FastAPI()
 
@@ -14,13 +14,39 @@ async def read_item(q: str | None = None):
     return results
 
 
-
 @app.get("/items2/")
-async  def read_item2(q:Union[str,None]=Query(default= None,max_length=50)):
-    results = {"items":[{"item_id":"Foo"},{"item_id":"Bar"}]}
+async def read_item2(q: Union[str, None] = Query(default=None, max_length=50)):
+    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
     if q:
-        results.update({"q":q})
-    return  results
+        results.update({"q": q})
+    return results
+
+
+@app.get("/items3/")
+async def read_item3(q: Union[str, None] = Query(default=None, max_length=50, min_length=3)):
+    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q})
+    return results
+
+
+# 默认参数
+@app.get("/items4/")
+async def read_item4(q: str = Query(default="fixedquery", min_length=3)):
+    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q})
+    return results
+
+
+@app.get("/items5/")
+async def read_item5(q: str = Query(min_length=3)):
+    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q})
+    return results
+
+
 
 
 

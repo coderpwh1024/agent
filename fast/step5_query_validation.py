@@ -47,7 +47,12 @@ async def read_item5(q: str = Query(min_length=3)):
     return results
 
 
-
+@app.get("/items6/")
+async def read_item6(q: Union[str, None] = Query(min_length=3)):
+    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q})
+    return results
 
 
 

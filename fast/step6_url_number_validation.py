@@ -17,6 +17,15 @@ async def read_items(
     return results
 
 
+
+@app.get("/items2/{item_id}")
+async  def read_items2(q:str,item_id:int =Path(title="The ID of the item to get")):
+    results = {"item_id": item_id}
+    if q:
+        results.update({"q": q})
+    return  results
+
+
 if __name__ == "__main__":
     if __name__ == "__main__":
-        uvicorn.run(app, host="0.0.0.0", port=9012)
+        uvicorn.run(app, host="0.0.0.0", port=8001)

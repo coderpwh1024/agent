@@ -1,5 +1,3 @@
-from importlib.resources import read_text
-from string import ascii_uppercase
 from typing import Annotated
 import uvicorn
 from fastapi import FastAPI, Path, Query

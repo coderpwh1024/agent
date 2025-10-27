@@ -1,18 +1,28 @@
 from typing import Annotated
 
 import uvicorn
-from fastapi import FastAPI, Query, Path
+from fastapi import FastAPI, Query, Path, Body
 from pydantic import BaseModel
 
 app = FastAPI()
 
 
 
+
 class Item(BaseModel):
-    name:str
-    description:str
-    price:float
-    tax:float | None = None
+    name: str
+    description: str | None = None
+    price: float
+    tax: float | None = None
+
+
+class User(BaseModel):
+    username:str
+    full_name:str|None= None
+
+
+
+
 
 
 
@@ -24,6 +34,15 @@ async  def update_item(item_id:Annotated[int,Path(title="The ID of the item to g
     if item:
         results.update({"item":item})
     return  results
+
+
+
+@app.put("/items2/{item_id}")
+async  def update_item2(item_id:int,item:Item,user:User,importance:Annotated[int,Body()]):
+    results = {"item_id":item_id,"item":item,"user":user,"importance":importance}
+    return  results
+
+
 
 
 

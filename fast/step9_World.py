@@ -1,7 +1,8 @@
-# 在文件开头添加导入语句
+from typing import Annotated
 import uvicorn
-from fastapi import FastAPI
-import asyncio
+from fastapi import Body, FastAPI
+from pydantic import BaseModel, Field
+
 
 app = FastAPI()
 
@@ -13,7 +14,10 @@ class Item(BaseModel):
     tax: float | None = None
 
 
-
+@app.put("/items/{item_id}")
+async def update_item(item_id: int, item: Annotated[Item, Body(embed=True)]):
+    results = {"item_id": item_id, "item": item}
+    return results
 
 
 if __name__ == "__main__":

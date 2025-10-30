@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Dict
 
 import uvicorn
 from fastapi import FastAPI
@@ -88,7 +88,13 @@ async  def create_multiple_images(images: list[Image]):
 
 @app.put("/offers")
 async def update_item5(offer: Offer):
-    return offer;
+    return offer
+
+
+
+@app.put("/index-weights")
+async  def create_index_weights(weights:Dict[int,float]):
+    return weights
 
 
 if __name__ == "__main__":

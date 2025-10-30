@@ -7,6 +7,11 @@ from pydantic import BaseModel
 app = FastAPI()
 
 
+class Image(BaseModel):
+    url: str
+    name: str
+
+
 class Item(BaseModel):
     name: str
     description: str | None = None
@@ -30,6 +35,14 @@ class Item3(BaseModel):
     tags: set[str] = set()
 
 
+class Item4(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+    tax: float | None = None
+    images: Image | None = None
+
+
 @app.put("/items/{item_id}")
 async def update_item(item_id: int, item: Item):
     results = {"item_id": item_id, "item": item}
@@ -42,12 +55,16 @@ async def update_item2(item_id: int, item: Item2):
     return results
 
 
-
 @app.put("/items3/{item_id}")
-async  def update_item3(item_id:int, item:Item3):
+async def update_item3(item_id: int, item: Item3):
     results = {"item_id": item_id, "item": item}
     return results
 
+
+@app.put("/items4/{item_id}")
+async def update_item4(item_id: int, item: Item4):
+    result = {"item_id": item_id, "item": item}
+    return result
 
 
 if __name__ == "__main__":

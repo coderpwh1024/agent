@@ -2,13 +2,13 @@ from typing import Union
 
 import uvicorn
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
 
 app = FastAPI()
 
 
 class Image(BaseModel):
-    url: str
+    url: HttpUrl
     name: str
 
 

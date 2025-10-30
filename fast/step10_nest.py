@@ -76,6 +76,13 @@ async def update_item4(item_id: int, item: Item4):
     return result
 
 
+
+@app.put("/images")
+async  def create_multiple_images(images: list[Image]):
+    return  images;
+
+
+
 @app.put("/offers")
 async def update_item5(offer: Offer):
     return offer;

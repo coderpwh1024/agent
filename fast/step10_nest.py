@@ -40,7 +40,9 @@ class Item4(BaseModel):
     description: str | None = None
     price: float
     tax: float | None = None
-    images: Image | None = None
+    tags: set[str] = set()
+    # images: Image | None = None
+    images: list[Image] | None = None
 
 
 @app.put("/items/{item_id}")

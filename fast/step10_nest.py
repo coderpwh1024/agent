@@ -45,6 +45,13 @@ class Item4(BaseModel):
     images: list[Image] | None = None
 
 
+class Offer(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+    items: list[Item4]
+
+
 @app.put("/items/{item_id}")
 async def update_item(item_id: int, item: Item):
     results = {"item_id": item_id, "item": item}
@@ -67,6 +74,11 @@ async def update_item3(item_id: int, item: Item3):
 async def update_item4(item_id: int, item: Item4):
     result = {"item_id": item_id, "item": item}
     return result
+
+
+@app.put("/offers")
+async def update_item5(offer: Offer):
+    return offer;
 
 
 if __name__ == "__main__":

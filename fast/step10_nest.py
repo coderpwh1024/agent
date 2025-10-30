@@ -79,7 +79,10 @@ async def update_item4(item_id: int, item: Item4):
 
 @app.put("/images")
 async  def create_multiple_images(images: list[Image]):
-    return  images;
+    for image in images:
+        print(image.url)
+        print(image.name)
+    return  images
 
 
 

@@ -19,6 +19,11 @@ async def read_items(strange_header: Annotated[str | None, Header(convert_unders
        return {"strange_header": strange_header}
 
 
+@app.get("/items3/")
+async  def read_items3(x_token:Annotated[list[str]| None,Header()]=None):
+    print(x_token)
+    return {"X-Token values": x_token}
+
 
 
 if __name__ == "__main__":

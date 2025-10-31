@@ -10,7 +10,6 @@ class Item(BaseModel):
     description: str | None = None
     price: float
     tax: float | None = None
-
     model_config = {
         "json_schema_extra": {
             "examples": [

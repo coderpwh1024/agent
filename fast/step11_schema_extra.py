@@ -1,5 +1,7 @@
+from typing import Annotated
+
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 from pydantic import BaseModel, Field
 
 app = FastAPI()
@@ -27,10 +29,10 @@ class Item(BaseModel):
 
 # Field 参数
 class Item2(BaseModel):
-    name: str = Field(example=["Foo"])
-    description: str | None = Field(default=None, example="A very nice Item")
-    price: float = Field(example=35.4)
-    tax: float | None = Field(default=None, example=3.2)
+    name:str = Field(json_schema_extra={"example": "Foo"})
+    description: str | None = Field(default=None,json_schema_extra={"example": "A very nice Item"})
+    price:float =Field(json_schema_extra={"example": 35.4})
+    tax:float |None =Field(default= None,json_schema_extra={"example": 3.2})
 
 
 @app.put("/items/{item_id}")
@@ -40,9 +42,18 @@ async def update_item(item_id: int, item: Item):
 
 
 @app.put("/items2/{item_id}")
-async def update_item(item_id: int, item: Item):
+async def update_item2(item_id: int, item: Item2):
     results = {"item_id": item_id, "item": item}
     return results
+
+
+@app.put("/items3/{item_id}")
+async  def update_item3(item_id:int,item:Annotated[Item, Body(example={"name": "Foo", "description": "A very nice Item", "price": 35.4, "tax": 3.2})]):
+    results = {"item_id": item_id, "item": item}
+    return results
+
+
+
 
 
 if __name__ == "__main__":

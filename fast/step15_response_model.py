@@ -22,6 +22,17 @@ class UserIn(BaseModel):
     full_name: Union[str, None] = None
 
 
+class UserOut(BaseModel):
+    username: str
+    password: str
+    full_name: str
+
+
+@app.post("/user2/", response_model=UserOut)
+async def create_user2(user: UserIn) -> Any:
+    return user;
+
+
 @app.post("/user/", response_model=UserIn)
 async def create_user(user: UserIn) -> UserIn:
     return user

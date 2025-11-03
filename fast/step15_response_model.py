@@ -39,7 +39,14 @@ class Item2(BaseModel):
 items={
     "foo":{"name":"Foo","price":50.2},
     "bar":{"name":"Bar","description":"The bartenders","price":62,"tax":20.2},
-    "baz":{"name":"Baz","description":None,"price":50.2,"tax":10.5,"tags":[]}
+    # "baz":{"name":"Baz","description":None,"price":50.2,"tax":10.5,"tags":[]}
+
+    "baz":{
+        "name":"Baz",
+        "description":"The goes my baz",
+        "price":50.2,
+        "tax":10.5
+    }
 }
 
 
@@ -70,6 +77,12 @@ async def read_items2() -> Any:
 @app.get("/items3/{item_id}", response_model=Item,response_model_exclude_unset= True)
 async  def read_item3(item_id: str):
     return items[item_id]
+
+
+@app.get("/items4/{item_id}/name",response_model=Item2,response_model_exclude={"tax"})
+async  def read_item4(item_id:str):
+    return items[item_id]
+
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-from typing import Any, Union
+from typing import Any, Union, List
 
 import uvicorn
 from fastapi import FastAPI
@@ -28,6 +28,21 @@ class UserOut(BaseModel):
     full_name: str
 
 
+class Item2(BaseModel):
+    name: str
+    description: Union[str, None] = None
+    price: float
+    tax: float = 10.5
+    tags: List[str]=[]
+
+
+items={
+    "foo":{"name":"Foo","price":50.2},
+    "bar":{"name":"Bar","description":"The bartenders","price":62,"tax":20.2},
+    "baz":{"name":"Baz","description":None,"price":50.2,"tax":10.5,"tags":[]}
+}
+
+
 @app.post("/user2/", response_model=UserOut)
 async def create_user2(user: UserIn) -> Any:
     return user;
@@ -49,6 +64,12 @@ async def read_items2() -> Any:
         {"name": "Portal Gun", "price": 42.0},
         {"name": "Plumbus", "price": 22.0}
     ]
+
+
+
+@app.get("/items3/{item_id}", response_model=Item,response_model_exclude_unset= True)
+async  def read_item3(item_id: str):
+    return items[item_id]
 
 
 if __name__ == "__main__":

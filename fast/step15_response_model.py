@@ -18,6 +18,13 @@ class Item(BaseModel):
 async def read_item(item: Item) -> Any:
     return item
 
+@app.get("/items2/",response_model=list[Item])
+async  def read_items2()->Any:
+    return [
+        {"name":"Portal Gun","price":42.0},
+        {"name":"Plumbus","price":22.0}
+    ]
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8001)

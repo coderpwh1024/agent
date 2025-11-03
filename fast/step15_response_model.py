@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Union
 
 import uvicorn
 from fastapi import FastAPI
@@ -14,15 +14,29 @@ class Item(BaseModel):
     tax: float | None = None
     tags: list[str] = []
 
-@app.post("/items/",response_model= Item)
+
+class UserIn(BaseModel):
+    username: str
+    password: str
+    email: str | None = None
+    full_name: Union[str, None] = None
+
+
+@app.post("/user/", response_model=UserIn)
+async def create_user(user: UserIn) -> UserIn:
+    return user
+
+
+@app.post("/items/", response_model=Item)
 async def read_item(item: Item) -> Any:
     return item
 
-@app.get("/items2/",response_model=list[Item])
-async  def read_items2()->Any:
+
+@app.get("/items2/", response_model=list[Item])
+async def read_items2() -> Any:
     return [
-        {"name":"Portal Gun","price":42.0},
-        {"name":"Plumbus","price":22.0}
+        {"name": "Portal Gun", "price": 42.0},
+        {"name": "Plumbus", "price": 22.0}
     ]
 
 

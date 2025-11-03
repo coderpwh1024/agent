@@ -1,7 +1,22 @@
+from typing import Any
+
 import uvicorn
 from fastapi import FastAPI
+from pydantic import BaseModel
 
-app =FastAPI ()
+app = FastAPI()
+
+
+class Item(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+    tax: float | None = None
+    tags: list[str] = []
+
+@app.post("/items/",response_model= Item)
+async def read_item(item: Item) -> Any:
+    return item
 
 
 if __name__ == "__main__":

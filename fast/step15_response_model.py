@@ -25,29 +25,7 @@ class UserIn(BaseModel):
 class UserOut(BaseModel):
     username: str
     password: str
-    full_name: str|None = None
-
-
-class Item2(BaseModel):
-    name: str
-    description: Union[str, None] = None
-    price: float
-    tax: float = 10.5
-    tags: List[str] = []
-
-
-items = {
-    "foo": {"name": "Foo", "price": 50.2},
-    "bar": {"name": "Bar", "description": "The bartenders", "price": 62, "tax": 20.2},
-    # "baz":{"name":"Baz","description":None,"price":50.2,"tax":10.5,"tags":[]}
-
-    "baz": {
-        "name": "Baz",
-        "description": "The goes my baz",
-        "price": 50.2,
-        "tax": 10.5
-    }
-}
+    full_name: str | None = None
 
 
 class Item2(BaseModel):
@@ -93,20 +71,6 @@ async def read_items2() -> Any:
         {"name": "Portal Gun", "price": 42.0},
         {"name": "Plumbus", "price": 22.0}
     ]
-
-@app.get("/items3/{item_id}", response_model=Item, response_model_exclude_unset=True)
-async def read_item3(item_id: str):
-    return items[item_id]
-
-
-@app.get("/items4/{item_id}/name", response_model=Item2, response_model_exclude={"tax"})
-async def read_item4(item_id: str):
-    return items[item_id]
-
-
-@app.get("/items5/{item_id}", response_model=Item2, response_model_include={"name", "description"})
-async def read_item5(item_id: str):
-    return items[item_id]
 
 
 @app.get("/items3/{item_id}", response_model=Item, response_model_exclude_unset=True)

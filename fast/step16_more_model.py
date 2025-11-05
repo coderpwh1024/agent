@@ -43,7 +43,7 @@ def BaseItem(BaseModel):
 
 
 def CarItem(BaseItem):
-    type: str = "plane"
+    type: str = "car"
     size: int
 
 

@@ -26,6 +26,11 @@ class UserInDB(BaseModel):
     full_name: str | None = None
 
 
+class Item(BaseModel):
+    name: str
+    description: str | None = None
+
+
 def fake_password_hasher(raw_password: str):
     return "supersecret" + raw_password
 
@@ -52,6 +57,9 @@ def PlaneItem(BaseItem):
     size: int
 
 
+
+
+
 items = {
     "item1": {"description": "All my friends drive a low rider", "type": "car"},
     "items2": {
@@ -60,6 +68,13 @@ items = {
         "size": 5
     }
 }
+
+
+items2 = [
+    {"name":"Foo","description":"There comes my hero"},
+    {"name":"Red","description":"It's my aeroplane"}
+]
+
 
 
 @app.post("/user/", response_model=UserOut)
@@ -71,6 +86,14 @@ async def create_user(user_in: UserIn):
 @app.get("/items/{item_id}", response_model=Union[PlaneItem, CarItem])
 async def read_item(item_id: str):
     return items[item_id]
+
+
+@app.get("/items2/", response_model=list[Item])
+async  def read_items2():
+    return  items2
+
+
+
 
 
 if __name__ == "__main__":

@@ -36,10 +36,40 @@ def fake_save_user(user_in: UserIn):
     return user_in_db
 
 
+def BaseItem(BaseModel):
+    description: str | None = None
+    type: str
+
+
+def CarItem(BaseItem):
+    type: str = "plane"
+    size: int
+
+
+def PlaneItem(BaseItem):
+    type: str = "plane"
+    size: int
+
+
+items = {
+    "item1": {"description": "All my friends drive a low rider", "type": "car"},
+    "items2": {
+        "description": "Music is my aeroplane,it's my aeroplan",
+        "type": "plane",
+        "size": 5
+    }
+}
+
+
 @app.post("/user/", response_model=UserOut)
 async def create_user(user_in: UserIn):
     user_saved = fake_save_user(user_in)
     return user_saved
+
+
+@app.get("/items/{item_id}", response_model=[PlaneItem, CarItem])
+async def read_item(item_id: str):
+    return items[item_id]
 
 
 if __name__ == "__main__":

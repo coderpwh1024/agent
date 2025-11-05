@@ -1,3 +1,4 @@
+from typing import Union
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel, EmailStr
@@ -67,7 +68,7 @@ async def create_user(user_in: UserIn):
     return user_saved
 
 
-@app.get("/items/{item_id}", response_model=[PlaneItem, CarItem])
+@app.get("/items/{item_id}", response_model=Union[PlaneItem, CarItem])
 async def read_item(item_id: str):
     return items[item_id]
 

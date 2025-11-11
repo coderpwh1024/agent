@@ -1,7 +1,14 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Form
 
 app = FastAPI ()
+
+
+@app.post("/login")
+async  def login(username:str=Form(),password:str=Form()):
+    return {"username":username}
+
+
 
 
 if __name__ == "__main__":

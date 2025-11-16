@@ -19,6 +19,12 @@ async  def create_upload_file(file:UploadFile):
 
 
 
+@app.post("files2")
+async  def create_file2(file:bytes=File(description="A File read as bytes")):
+    return  {"file_size":len(file)}
+
+
+
 
 
 

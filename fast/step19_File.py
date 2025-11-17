@@ -4,25 +4,24 @@ from fastapi import FastAPI, File, UploadFile
 app = FastAPI();
 
 
-
 @app.post("/files/")
-async  def create_file(file:bytes=File()):
-    return {"file_size":len(file)}
-
-
+async def create_file(file: bytes = File()):
+    return {"file_size": len(file)}
 
 
 @app.post("/uploadfile/")
-async  def create_upload_file(file:UploadFile):
-   return  {"filename":file.filename}
+async def create_upload_file(file: UploadFile):
+    return {"filename": file.filename}
 
 
+@app.post("/files2")
+async def create_file2(file: bytes = File(description="A File read as bytes")):
+    return {"file_size": len(file)}
 
 
-@app.post("files2")
-async  def create_file2(file:bytes=File(description="A File read as bytes")):
-    return  {"file_size":len(file)}
-
+@app.post("/uploadfile2")
+async def create_upload_file2(file: UploadFile = File(description="A File read as UploadFile")):
+    return {"filename": file.filename}
 
 
 

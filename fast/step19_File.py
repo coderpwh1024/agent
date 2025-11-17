@@ -24,6 +24,11 @@ async def create_upload_file2(file: UploadFile = File(description="A File read a
     return {"filename": file.filename}
 
 
+@app.post("/files3")
+async  def create_files(files:list[bytes]=File()):
+    print("多文件上传")
+    return {"file_sizes": [len(file) for file in files]}
+
 
 
 

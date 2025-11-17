@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import HTMLResponse
 
 app = FastAPI();
 
@@ -25,16 +26,31 @@ async def create_upload_file2(file: UploadFile = File(description="A File read a
 
 
 @app.post("/files3")
-async  def create_files(files:list[bytes]=File()):
+async def create_files(files: list[bytes] = File()):
     print("多文件上传")
     return {"file_sizes": [len(file) for file in files]}
 
 
-
 @app.post("/uploadfiles3")
-async  def create_upload_files(files:list[UploadFile]):
+async def create_upload_files(files: list[UploadFile]):
     return {"filenames": [file.filename for file in files]}
 
+
+@app.get("/")
+async def main():
+    content = """
+    <body>
+<form action="/files/" enctype="multipart/form-data" method="post">
+<input name="files" type="file" multiple>
+<input type="submit">
+</form>
+<form action="/uploadfiles/" enctype="multipart/form-data" method="post">
+<input name="files" type="file" multiple>
+<input type="submit">
+</form>
+</body>
+    """
+    return HTMLResponse(content=content)
 
 
 if __name__ == "__main__":

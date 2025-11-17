@@ -1,0 +1,32 @@
+import uvicorn
+from fastapi import FastAPI, File, UploadFile
+
+app = FastAPI();
+
+
+
+@app.post("/files/")
+async  def create_file(file:bytes=File()):
+    return {"file_size":len(file)}
+
+
+
+
+@app.post("/uploadfile/")
+async  def create_upload_file(file:UploadFile):
+   return  {"filename":file.filename}
+
+
+
+
+@app.post("files2")
+async  def create_file2(file:bytes=File(description="A File read as bytes")):
+    return  {"file_size":len(file)}
+
+
+
+
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8001)

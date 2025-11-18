@@ -1,6 +1,8 @@
 import uvicorn
 from fastapi import FastAPI, HTTPException, Request
-from starlette.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
+from starlette.responses import JSONResponse, PlainTextResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 
 class UnicornException(Exception):
@@ -33,14 +35,27 @@ async def unicorn_exception_handler(request: Request, exc: UnicornException):
 
 
 @app.get("/unicorns/{name}")
-async  def read_unicorn(name:str):
+async def read_unicorn(name: str):
     if name == "yolo":
         raise UnicornException(name=name)
-    return  {"unicor_name":name}
+    return {"unicor_name": name}
 
 
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request, exc):
+    return PlainTextResponse(str(exc.detail), status_code=exc.status_code)
 
 
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    return PlainTextResponse(str(exc), status_code=400)
+
+
+@app.get("/items/{item_id}")
+async def read_item(item_id: int):
+    if item_id == 3:
+        raise HTTPException(status_code=418, detail="Nope! I don't like 3.")
+    return {"item_id": item_id}
 
 
 if __name__ == "__main__":

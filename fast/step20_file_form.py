@@ -1,6 +1,5 @@
 import uvicorn
-from fastapi import FastAPI, File, Form
-from starlette.datastructures import UploadFile
+from fastapi import FastAPI, File, Form, UploadFile
 
 app = FastAPI()
 

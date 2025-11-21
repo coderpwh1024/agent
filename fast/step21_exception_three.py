@@ -16,7 +16,17 @@ async  def custom_http_exception_handler(request,exc):
     return  await custom_http_exception_handler(request,exc)
 
 
+@app.exception_handler(RequestValidationError)
+async  def validation_exception_handler(request,exc):
+    print(f"OMG! 请求参数错误:{repr(exc)}")
+    return await request_validation_exception_handler(request,exc)
 
+
+@app.get("/items/{item_id}")
+async  def read_item(item_id:int):
+    if item_id ==3:
+        raise HTTPException(status_code=418,detail="去你大爷的，讨厌数字3")
+    return {"item_id":item_id}
 
 
 

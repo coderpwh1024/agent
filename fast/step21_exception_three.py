@@ -1,11 +1,12 @@
 import uvicorn
 from fastapi import FastAPI,HTTPException
-from fastapi.exception_handlers import(
+from fastapi.exception_handlers import (
     http_exception_handler,
-request_validation_exception_handler,
+    request_validation_exception_handler,
 )
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
+
 
 app = FastAPI();
 
@@ -25,7 +26,7 @@ async  def validation_exception_handler(request,exc):
 @app.get("/items/{item_id}")
 async  def read_item(item_id:int):
     if item_id ==3:
-        raise HTTPException(status_code=418,detail="去你大爷的，讨厌数字3")
+        raise HTTPException(status_code=418,detail="ope! I don't like 3.")
     return {"item_id":item_id}
 
 

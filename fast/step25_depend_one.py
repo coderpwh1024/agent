@@ -10,6 +10,14 @@ async  def common_parameters(q:Union[str,None]=None,skip:int=0,limit:int=100):
 
 
 
+@app.get("/items/")
+async def read_items(commons:dict=Depends(common_parameters)):
+    return commons
+
+
+
+
+
 
 
 if __name__ == "__main__":

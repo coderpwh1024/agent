@@ -18,7 +18,7 @@ def query_or_cookie_extractor(q: str = Depends(query_extractor), last_query: Uni
 
 @app.get("/items/")
 async def read_query(query_or_default: str = Depends(query_or_cookie_extractor)):
-    return {"q": query_or_default}
+    return {"q_or_cookie": query_or_default}
 
 
 if __name__ == "__main__":

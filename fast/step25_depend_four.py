@@ -1,9 +1,6 @@
-from email.header import Header
-from typing import Annotated
-
+from fastapi import Depends, FastAPI, Header, HTTPException
 import uvicorn
-from fastapi import FastAPI, HTTPException
-from fastapi.params import Depends
+from typing import Annotated
 
 
 async def verify_token(x_token: Annotated[str, Header()]):
@@ -18,7 +15,6 @@ async def verify_key(x_key: Annotated[str, Header()]):
 
 
 app = FastAPI(dependencies=[Depends(verify_token), Depends(verify_key)])
-
 
 @app.get("/items/")
 async def read_items():

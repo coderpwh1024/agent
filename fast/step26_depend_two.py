@@ -1,5 +1,4 @@
 import uvicorn
-from fastapi import FastAPI
 from typing import Annotated
 from fastapi import Depends, FastAPI, HTTPException
 
@@ -19,7 +18,7 @@ def get_username():
 
 
 @app.get("/items/{item_id}")
-def get_item(item_id: str, username: Annotated[str, Depends(get_username())]):
+def get_item(item_id: str, username: Annotated[str, Depends(get_username)]):
     if item_id == "portal-gun":
         raise InternalError(f"The portal gun is too dangerous to be owned by {username}")
     if item_id != "plumbus":

@@ -173,8 +173,8 @@ def process_excel(input_file, output_file):
 
 if __name__ == "__main__":
     # 输入和输出文件路径
-    input_file = "fat.xlsx"  # 修改为你的输入文件路径
-    output_file = "fat_result.xlsx"  # 输出文件路径
+    input_file = "82.xlsx"  # 修改为你的输入文件路径
+    output_file = "82_result.xlsx"  # 输出文件路径
     
     # 如果有命令行参数，使用命令行参数
     if len(sys.argv) > 1:

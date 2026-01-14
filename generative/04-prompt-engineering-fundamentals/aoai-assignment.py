@@ -9,7 +9,7 @@ text=f"""
 """
 
 
-encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
+encoding = tiktoken.encoding_for_model("gpt-4o")
 
 tokens = encoding.encode(text)
 print(tokens)
@@ -24,9 +24,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 client = AzureOpenAI(
-    api_key='', # this is also the default, it can be omitted
-    api_version='',
-    azure_endpoint=''
+    api_key='1DmwJTq4xKOzqz9D1uZILiyjSI3rjF9SWho5zyGqUI68Gv7kPia7JQQJ99AKACLArgHXJ3w3AAAAACOGwDD5', # this is also the default, it can be omitted
+    api_version='2024-08-01-preview',
+    azure_endpoint='https://tangi-m42ecc94-southcentralus.cognitiveservices.azure.com'
 )
 
 
@@ -36,7 +36,7 @@ def get_completion(prompt):
     messages = [{"role": "user", "content": prompt}]
     response = client.chat.completions.create(
         #  TODO
-        model='',
+        model='Server',
         messages=messages,
         temperature=0, # this is the degree of randomness of the model's output
         max_tokens=1024

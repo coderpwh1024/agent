@@ -1,6 +1,3 @@
-import os
-from typing import Annotated
-import os
 from typing import Annotated
 import asyncio
 from openai import AsyncOpenAI, AsyncAzureOpenAI
@@ -13,10 +10,10 @@ from semantic_kernel.functions import kernel_function
 
 
 
-apiKey = " "
+apiKey = ""
 endpoint = ""
 open_ai_version = "2024-08-01-preview"
-azure_deployment = ""
+azure_deployment = " "
 
 
 
